@@ -1,6 +1,6 @@
 '''
 This code is AI-generated and has not been manually reviewed to avoid bias in training the models.
-It generates synthetic raw data and metadata for the Metro-Luzon Engineering License Analytics & Forecasting project.
+It generates synthetic raw data and metadata for the Engineering License Analytics & Forecasting project.
 Furthermore, it creates realistic user, product, feature, and license pool dimensions, as well as a large volume of license events with controlled anomalies and structural data quality issues.
 '''
 
