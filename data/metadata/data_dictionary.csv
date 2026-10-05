@@ -1,0 +1,28 @@
+Table,Column,Type,Description,Nullable,PK,FK
+raw.users,user_id,VARCHAR,Unique identifier for the employee.,NO,YES,NO
+raw.users,job_role,VARCHAR,Employee job role (messy: casing/spaces).,YES,NO,NO
+raw.users,location,VARCHAR,"PH Hub Code (BGC, MNL, MAK, QC, CEB, DAV).",YES,NO,NO
+raw.users,created_at,DATE,Account provisioning date.,NO,NO,NO
+raw.software_products,product_id,VARCHAR,"Unique software product ID (e.g., P001).",NO,YES,NO
+raw.software_products,product_name,VARCHAR,"Real software title (AutoCAD, Revit, etc.).",NO,NO,NO
+raw.software_products,vendor,VARCHAR,"Software publisher (Autodesk, Ansys, etc.).",NO,NO,NO
+raw.software_products,version,VARCHAR,Software version string.,YES,NO,NO
+raw.software_features,feature_id,VARCHAR,"Feature identifier (e.g., F0101).",NO,YES,NO
+raw.software_features,product_id,VARCHAR,Parent product identifier.,NO,NO,software_products.product_id
+raw.software_features,feature_name,VARCHAR,Name of specific tool/feature.,NO,NO,NO
+raw.software_features,feature_category,VARCHAR,"Category (Core, Simulation, Analytics).",YES,NO,NO
+raw.software_features,version,VARCHAR,Version string for feature.,YES,NO,NO
+raw.license_pools,license_pool_id,VARCHAR,Network floating license pool ID.,NO,YES,NO
+raw.license_pools,product_id,VARCHAR,Product tied to pool capacity.,NO,NO,software_products.product_id
+raw.license_pools,capacity,INTEGER,Maximum concurrent license seats.,NO,NO,NO
+raw.license_pools,valid_from,DATE,Licensing agreement start date.,YES,NO,NO
+raw.license_pools,valid_until,DATE,Licensing agreement expiration date.,YES,NO,NO
+raw.license_events,event_id,BIGINT,Unique sequence ID for the event.,NO,YES,NO
+raw.license_events,event_timestamp,TIMESTAMP,Event timestamp (PHT local time).,NO,NO,NO
+raw.license_events,user_id,VARCHAR,Employee consuming seat (contains bad FKs).,YES,NO,users.user_id
+raw.license_events,product_id,VARCHAR,Product seat requested.,YES,NO,software_products.product_id
+raw.license_events,feature_id,VARCHAR,Specific feature invoked.,YES,NO,software_features.feature_id
+raw.license_events,license_pool_id,VARCHAR,Concurrent pool seat drawn from.,YES,NO,license_pools.license_pool_id
+raw.license_events,event_type,VARCHAR,Event state (CHECKOUT or CHECKIN).,NO,NO,NO
+raw.license_events,session_id,VARCHAR,Unique ID pairing CHECKOUT/CHECKIN.,NO,NO,NO
+raw.license_events,ingested_at,TIMESTAMP,Processing audit timestamp.,NO,NO,NO
