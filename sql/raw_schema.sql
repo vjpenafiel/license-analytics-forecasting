@@ -2,7 +2,7 @@
 CREATE SCHEMA IF NOT EXISTS raw;
 
 -- 1. Table for users
-CREATE raw.users (
+CREATE TABLE raw.users (
     user_id VARCHAR(50) PRIMARY KEY,
     job_role VARCHAR(255),
     location VARCHAR(50),
@@ -10,7 +10,7 @@ CREATE raw.users (
 );
 
 -- 2. Table for software products   
-CREATE raw.software_products (
+CREATE TABLE raw.software_products (
     product_id VARCHAR(50) PRIMARY KEY,
     product_name VARCHAR(255) NOT NULL,
     vendor VARCHAR(255) NOT NULL,
@@ -18,7 +18,7 @@ CREATE raw.software_products (
 );
 
 -- 3. Table for software features
-CREATE raw.software_features (
+CREATE TABLE raw.software_features (
     feature_id VARCHAR(50) PRIMARY KEY,
     product_id VARCHAR(50) REFERENCES raw.software_products(product_id),
     feature_name VARCHAR(255) NOT NULL,
@@ -27,17 +27,17 @@ CREATE raw.software_features (
 );
 
 -- 4. Table for license pools
-CREATE raw.license_pools (
+CREATE TABLE raw.license_pools (
     license_pool_id VARCHAR(50) PRIMARY KEY,
     product_id VARCHAR(50) REFERENCES raw.software_products(product_id),
     capacity INT NOT NULL,
     valid_from DATE,
     valid_until DATE
-)
+);
 
 -- 5. Table for license events
 -- NOTE: Omit foreign keys to allow messy data for further data cleaning
-CREATE raw.license_events (
+CREATE TABLE raw.license_events (
     event_id BIGINT PRIMARY KEY,
     event_timestamp TIMESTAMP NOT NULL,
     user_id VARCHAR(50),
@@ -47,7 +47,7 @@ CREATE raw.license_events (
     event_type VARCHAR(50) NOT NULL,
     session_id VARCHAR(255),
     ingested_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+);
 
 -- 6. Indexing for query performance
 CREATE INDEX idx_raw_events_session ON raw.license_events(session_id);
